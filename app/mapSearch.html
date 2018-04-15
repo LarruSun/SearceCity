@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<style type="text/css">
+	body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	</style>
+
+	<!--src后面的ak为秘钥-->
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=GkEdodCUtbhOBd9Usoyhs8Ap9hLZ78lC"></script>
+	<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Sp0EdBXMd67tDgOUXPptuXaF5Rpd47wE"></script>-->
+
+
+	<title>地图展示</title>
+</head>
+	<body>
+		<div id="allmap"></div>
+	</body>
+</html>
+
+
+
+
+
+<script type="text/javascript">
+    console.log(localStorage.lastname);
+
+    var add=localStorage.lastname;
+
+    baiduMap(add,17)
+
+
+    function baiduMap(str,rank){
+				//资信达 113.874951,22.571198
+
+
+				//地图的基础功能
+					// 创建Map实例
+				var map = new BMap.Map("allmap");
+					//设置当前显示城市
+				map.setCurrentCity("深圳");
+					//创建默认城市
+				var point = new BMap.Point(113.874951,22.571198);//括号内为目标位置的经纬度（详细地址）也可以直接加地名Point("深圳")
+					//显示默认城市
+				map.centerAndZoom(point, rank);//17数字越大，期地图显示越详细
+				    //设置鼠标的滚轮操作
+				map.enableScrollWheelZoom(true);
+				    //根据地名查找
+				searchAdd(map,point,rank,str);
+                
+                //附加功能的添加
+					//添加右上角地图类型切换标志
+				cutType(map);
+					//添加左上角控件
+				rankControls(map);
+					//添加比例尺
+				addMgnify(map);
+    };
+
+
+
+    //根据地名查找地址
+    function searchAdd(map,point,rank,str){
+        // 创建地址解析器实例
+        var myGeo = new BMap.Geocoder();
+        // 将地址解析结果显示在地图上,并调整地图视野
+        myGeo.getPoint(str, function(point){
+            if (point) {
+                map.centerAndZoom(point, rank);
+                map.addOverlay(new BMap.Marker(point));
+            }else{
+                alert("没有找到改地址");
+            }
+        }, "深圳市");
+    }
+    //添加地图类型控件（右上角的控件切换地图类型控件）
+    function cutType(map){
+        map.addControl(new BMap.MapTypeControl({
+            mapTypes: [
+                BMAP_NORMAL_MAP,
+                BMAP_HYBRID_MAP
+            ]
+        }));
+    }
+    // 添加带有定位的导航控件（左上角的控件）
+    function rankControls(map){
+        var navigationControl = new BMap.NavigationControl({
+            // 靠左上角位置
+            anchor: BMAP_ANCHOR_TOP_LEFT,
+            // LARGE类型
+            type: BMAP_NAVIGATION_CONTROL_LARGE,
+            // 启用显示定位
+        });
+        map.addControl(navigationControl);
+
+    }
+    //添加比例尺;
+    function addMgnify(map){
+        var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+        var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+        var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}); //右上角，仅包含平移和缩放按钮
+        /*缩放控件type有四种类型:
+            BMAP_NAVIGATION_CONTROL_SMALL：仅包含平移和缩放按钮；BMAP_NAVIGATION_CONTROL_PAN:仅包含平移按钮；BMAP_NAVIGATION_CONTROL_ZOOM：仅包含缩放按钮*/
+
+        //添加控件和比例尺
+        map.addControl(top_left_control);
+        map.addControl(top_left_navigation);
+        map.addControl(top_right_navigation);
+    }
+</script>
+
+
+
+           

@@ -1,0 +1,28 @@
+myData[0]
+	title:A
+	elements[0]
+		en:'aershan'
+		id:'ART'
+		name:'阿尔山'
+		s['阿尔山',"aershan","aes","aes"]
+	elements[1]
+		en:'ankang'
+		id:'AKY'
+		name:'安康'
+		s['"安康"',"ankang","aka","ak"]
+	
+
+
+myData[1]
+	title:B
+	elements[0]
+		en:'beijingbei'
+		id:'VAR'
+		name:'北京北'
+		s['北京北',"beijingbei","bjb","bjb"]
+	elements[1]
+		en:'beijingdong'
+		id:'BOP'
+		name:'北京东'
+		s['"北京东"',"beijingdong","bjd","bjd"]
+	
